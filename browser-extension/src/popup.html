@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruthLens</title>
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 380px;
+      min-height: 500px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    .header {
+      background: linear-gradient(135deg, #2E8B57, #32CD32);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .logo-icon {
+      font-size: 28px;
+      margin-right: 8px;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    .status-section {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .status-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .status-label {
+      font-weight: 500;
+      color: #333;
+    }
+
+    .status-value {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-left: 8px;
+    }
+
+    .status-connected {
+      background: #2E8B57;
+    }
+
+    .status-disconnected {
+      background: #FF4444;
+    }
+
+    .status-scanning {
+      background: #FF8C00;
+    }
+
+    .quick-actions {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .action-button {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 8px;
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px;
+    }
+
+    .action-button:hover {
+      background: #e9ecef;
+      transform: translateY(-1px);
+    }
+
+    .action-button:last-child {
+      margin-bottom: 0;
+    }
+
+    .action-button.primary {
+      background: #2E8B57;
+      color: white;
+      border-color: #2E8B57;
+    }
+
+    .action-button.primary:hover {
+      background: #236B43;
+    }
+
+    .action-button.danger {
+      background: #fff5f5;
+      color: #FF4444;
+      border-color: #ffcccc;
+    }
+
+    .action-button.danger:hover {
+      background: #ffe6e6;
+    }
+
+    .action-icon {
+      margin-right: 8px;
+      font-size: 16px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #2E8B57;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    .analyze-section {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-input {
+      width: 100%;
+      min-height: 80px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      resize: vertical;
+      margin-bottom: 12px;
+    }
+
+    .text-input:focus {
+      outline: none;
+      border-color: #2E8B57;
+      box-shadow: 0 0 0 2px rgba(46, 139, 87, 0.2);
+    }
+
+    .stats-section {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .stat-number {
+      font-size: 20px;
+      font-weight: bold;
+      color: #2E8B57;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: #999;
+    }
+  </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <span class="logo-icon">🛡️</span>
+            <span class="logo-text">TruthLens</span>
+        </div>
+        <div class="subtitle">AI-powered protection against misinformation</div>
+    </div>
+
+    <div class="content">
+        <!-- Status Section -->
+        <div class="status-section">
+            <div class="section-title">Connection Status</div>
+            <div class="status-row">
+                <span class="status-label">Backend API</span>
+                <div style="display: flex; align-items: center;">
+                    <span class="status-value" id="connection-status">Checking...</span>
+                    <div class="status-indicator" id="connection-indicator"></div>
+                </div>
+            </div>
+            <div class="status-row">
+                <span class="status-label">Auto Scan</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="auto-scan-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="status-row">
+                <span class="status-label">Current Page</span>
+                <span class="status-value" id="current-domain">Loading...</span>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <div class="section-title">Quick Actions</div>
+            <button class="action-button primary" id="scan-page-btn">
+                <span class="action-icon">🔍</span>
+                Scan Current Page
+            </button>
+            <button class="action-button" id="analyze-selected-btn">
+                <span class="action-icon">🎯</span>
+                Analyze Selected Text
+            </button>
+            <button class="action-button" id="clear-markers-btn">
+                <span class="action-icon">🧹</span>
+                Clear All Markers
+            </button>
+        </div>
+
+        <!-- Manual Analysis -->
+        <div class="analyze-section">
+            <div class="section-title">Manual Analysis</div>
+            <textarea id="manual-text-input" class="text-input" placeholder="Paste suspicious text, message, or content here for analysis...
+
+Examples:
+• WhatsApp forwards
+• Social media posts  
+• News articles
+• Investment offers"></textarea>
+            <button class="action-button primary" id="analyze-manual-btn">
+                <span class="action-icon">⚡</span>
+                Analyze Content
+            </button>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-section">
+            <div class="section-title">Today's Activity</div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="scans-count">0</span>
+                    <span class="stat-label">Pages Scanned</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="threats-blocked">0</span>
+                    <span class="stat-label">Threats Blocked</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="elements-checked">0</span>
+                    <span class="stat-label">Elements Checked</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="accuracy-rate">95%</span>
+                    <span class="stat-label">Accuracy Rate</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Made with ❤️ for digital safety<br>
+        <a href="../src/options.html" style="color: #2E8B57; text-decoration: none;">Settings & Help</a>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+{
+  "manifest_version": 3,
+  "name": "TruthLens - Misinformation Detector",
+  "version": "1.0.0",
+  "description": "AI-powered protection against misinformation, scams, and fake news. Specially designed for elderly users.",
+  
+  "icons": {
+    "16": "assets/icon16.png",
+    "32": "assets/icon32.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "storage",
+    "notifications"
+  ],
+
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "https://*.googleapis.com/*"
+  ],
+
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://web.whatsapp.com/*",
+        "https://www.facebook.com/*",
+        "https://twitter.com/*",
+        "https://www.youtube.com/*",
+        "https://*.news/*",
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "src/content.js"
+      ],
+      "css": [
+        "src/styles.css"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+
+  "action": {
+    "default_popup": "src/popup.html",
+    "default_title": "TruthLens - Check Content Safety",
+    "default_icon": {
+      "16": "assets/icon16.png",
+      "32": "assets/icon32.png",
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
+    }
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/*",
+        "src/warning-overlay.html"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ],
+
+  "options_page": "src/options.html"
+}

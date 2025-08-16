@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruthLens - Settings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .settings-content {
+            padding: 40px;
+        }
+
+        .setting-group {
+            margin-bottom: 35px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 25px;
+        }
+
+        .setting-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .setting-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-description {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 70px;
+            height: 35px;
+            margin-right: 15px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 35px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 27px;
+            width: 27px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4CAF50;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(35px);
+        }
+
+        .select-wrapper {
+            position: relative;
+            margin-top: 10px;
+        }
+
+        select {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .input-group {
+            margin-top: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="text"], input[type="url"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+        }
+
+        input[type="text"]:focus, input[type="url"]:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .button-group {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76,175,80,0.4);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .status-connected {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .status-disconnected {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .help-text {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                🛡️ TruthLens Settings
+            </h1>
+            <p>Configure your protection preferences</p>
+        </div>
+
+        <div class="settings-content">
+            <!-- Connection Status -->
+            <div class="setting-group">
+                <div class="setting-title">
+                    🔗 Connection Status
+                </div>
+                <div id="connectionStatus" class="status-indicator status-disconnected">
+                    ⚠️ Checking connection...
+                </div>
+                <div class="help-text">
+                    <strong>Note:</strong> Make sure your TruthLens backend is running on localhost:8000 for the
+                    extension to work properly.
+                </div>
+            </div>
+
+            <!-- Auto Scanning -->
+            <div class="setting-group">
+                <div class="setting-title">
+                    🔍 Auto Scanning
+                </div>
+                <div class="setting-description">
+                    Automatically scan webpage content for misinformation and scams as you browse.
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="autoScan" checked>
+                    <span class="slider"></span>
+                </label>
+                <span>Enable automatic content scanning</span>
+            </div>
+
+            <!-- Detection Sensitivity -->
+            <div class="setting-group">
+                <div class="setting-title">
+                    ⚖️ Detection Sensitivity
+                </div>
+                <div class="setting-description">
+                    Choose how sensitive the detection should be. Higher sensitivity may show more warnings.
+                </div>
+                <div class="select-wrapper">
+                    <select id="sensitivity">
+                        <option value="low">🟢 Low - Only obvious scams</option>
+                        <option value="medium" selected>🟡 Medium - Balanced detection</option>
+                        <option value="high">🔴 High - Very cautious</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Warning Display -->
+            <div class="setting-group">
+                <div class="setting-title">
+                    ⚠️ Warning Display
+                </div>
+                <div class="setting-description">
+                    Control how warnings are shown on webpages.
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="showWarnings" checked>
+                    <span class="slider"></span>
+                </label>
+                <span>Show warning overlays on dangerous content</span>
+
+                <br><br>
+
+                <label class="toggle-switch">
+                    <input type="checkbox" id="highlightContent" checked>
+                    <span class="slider"></span>
+                </label>
+                <span>Highlight suspicious text with colored borders</span>
+            </div>
+
+            <!-- Voice Alerts -->
+            <div class="setting-group">
+                <div class="setting-title">
+                    🔊 Voice Alerts
+                </div>
+                <div class="setting-description">
+                    Enable voice notifications for elderly users or accessibility needs.
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="voiceAlerts">
+                    <span class="slider"></span>
+                </label>
+                <span>Enable voice warnings for dangerous content</span>
+            </div>
+
+            <!-- Backend Configuration -->
+            <div class="setting-group">
+                <div class="setting-title">
+                    ⚙️ Backend Configuration
+                </div>
+                <div class="setting-description">
+                    Configure the TruthLens backend server connection.
+                </div>
+                <div class="input-group">
+                    <label for="backendUrl">Backend URL:</label>
+                    <input type="url" id="backendUrl" value="http://localhost:8000" placeholder="http://localhost:8000">
+                </div>
+                <div class="help-text">
+                    <strong>Default:</strong> http://localhost:8000<br>
+                    <strong>For Docker:</strong> Make sure the backend container is running with port 8000 exposed.
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="setting-group">
+                <div class="setting-title">
+                    📊 Usage Statistics
+                </div>
+                <div class="setting-description">
+                    Your TruthLens protection statistics.
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalScans">0</div>
+                        <div class="stat-label">Total Scans</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="threatsBlocked">0</div>
+                        <div class="stat-label">Threats Blocked</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="safeContent">0</div>
+                        <div class="stat-label">Safe Content</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button Group -->
+            <div class="button-group">
+                <button class="btn btn-primary" id="saveSettings">💾 Save Settings</button>
+                <button class="btn btn-secondary" id="resetSettings">🔄 Reset to Default</button>
+                <button class="btn btn-secondary" id="testConnection">🔍 Test Connection</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="options.js"></script>
+</body>
+
+</html>
