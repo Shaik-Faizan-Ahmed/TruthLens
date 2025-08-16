@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Add these to app/src/main/res/values/strings.xml -->
+<resources>
+    <string name="app_name">TruthLens</string>
+    <string name="accessibility_service_description">TruthLens monitors content for misinformation detection to keep you safe from scams and fake news.</string>
+
+    <!-- UI Strings -->
+    <string name="verify_content">Verify Content</string>
+    <string name="analyzing">Analyzing content...</string>
+    <string name="safe_content">Content appears safe</string>
+    <string name="warning_content">Caution: Verify before acting</string>
+    <string name="danger_content">Warning: Likely misinformation</string>
+
+    <!-- Share Menu -->
+    <string name="verify_with_truthlens">Verify with TruthLens</string>
+
+    <!-- Settings -->
+    <string name="enable_monitoring">Enable Background Monitoring</string>
+    <string name="voice_alerts">Enable Voice Alerts</string>
+</resources>
