@@ -24,7 +24,7 @@ class ApiService {
 
         // Backend URL - Update this to match your Docker setup
         // In ApiService.kt, change:
-        private const val BASE_URL = "http://192.168.1.XXX:8000"  // Your computer's IP
+        private const val BASE_URL = "http://192.168.29.33:8000"  // Your computer's IP
 
         // For physical device, use your computer's IP:
         // private const val BASE_URL = "http://192.168.1.100:8000"
